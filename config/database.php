@@ -9,11 +9,8 @@ class GestionBaseDeDonnees {
     private $username = "root"; 
     private $password = ""; 
 
-    public function getDB() {
-        $this->conn = null;
-     
-            $this->pdo = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
-
+    public function __construct() {
+        $this->pdo = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
         return $this->pdo;
     }
 

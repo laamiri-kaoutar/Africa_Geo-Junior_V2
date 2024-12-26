@@ -1,55 +1,73 @@
 <?php
-    include '../Controller/PaysController.php';
-    if (isset($_GET['id'])) {
-    if($_SERVER['REQUEST_METHOD'] == "POST" ) {
-
-        $image = $_FILES['image']['name'];
-        $tempname = $_FILES['image']['tmp_name'];
-        // i have to change the path here to be exactly where we want to add the image
-        $folder = 'assets/img/'.$image; 
-        move_uploaded_file($tempname , $folder);
-
-        $nom = $_POST["nom"];
-        $continent=$_POST["continent"];
-        $langues =$_POST["langues"];
-        $population =$_POST["population"];
-
-        $Pays = new Pays(null, $nom, $population, $langue, $continent, $image);
-
-        $paysController = new PaysController();
-
-        if ($paysController->update($Pays)) {
-            header("Location: Payss.php");
-        } else {
-            echo "something wint wrong in the update";
-        }
-
-       
-       
-    }
-
-    }else{ 
+    require_once '../Controller/PaysController.php';
     if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
-        $image = $_FILES['image']['name'];
-        $tempname = $_FILES['image']['tmp_name'];
-        // i have to change the path here to be exactly where we want to add the image
-        $folder = 'assets/img/'.$image; 
-        move_uploaded_file($tempname , $folder);
 
-        $nom = $_POST["nom"];
-        $continent=$_POST["continent"];
-        $langues =$_POST["langues"];
-        $population =$_POST["population"];
+        if (isset($_GET['id'])) {
 
-        $Pays = new Pays(null, $nom, $population, $langue, $continent, $image);
+                $id = $_POST['id'];
+                $image = $_FILES['urlImage']['name'];
+                $tempname = $_FILES['urlImage']['tmp_name'];
+                // i have to change the path here to be exactly where we want to add the image
+                $folder = '../View/img/'.$image; 
+                move_uploaded_file($tempname , $folder);
 
-        $paysController = new PaysController();
-        if ($paysController->create($Pays)) {
-            header("Location: Payss.php");
-        } else {
-            echo "something wint wrong in the create";
+                $nom = $_POST["nom"];
+                var_dump('nom', $nom);
+                $continent=$_POST["continent"];
+                $langues =$_POST["langues"];
+                $population =$_POST["population"];
+    
+                $Pays = new Pays($id, $nom, $population, $langues, $continent, $image);
+                var_dump($Pays->getNom() , $Pays->getPopulation(),$Pays->getLangues() , $Pays->getContinent() , $Pays->getImage());
+
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
+
+    
+                $paysController = new PaysController();
+                if ($paysController->update($Pays)) {
+                    var_dump($Pays);
+                    header("Location:../View/Payss.php");
+                }  {
+                    echo "something wint wrong in the update";
+                }
+
+            
+            
+            
+
+        }else{ 
+
+            // var_dump('aaa',$_POST["continent"]);
+            $image = $_FILES['urlImage']['name'];
+            $tempname = $_FILES['urlImage']['tmp_name'];
+            // i have to change the path here to be exactly where we want to add the image
+            $folder = '../View/img/'.$image; 
+            move_uploaded_file($tempname , $folder);
+
+            // $image = $_POST['urlImage'];
+            var_dump($image);
+
+
+            $nom = $_POST["nom"];
+            var_dump('nom', $nom);
+            $continent=$_POST["continent"];
+            $langues =$_POST["langues"];
+            $population =$_POST["population"];
+
+            $Pays = new Pays(null, $nom, $population, $langues, $continent, $image);
+            var_dump($Pays->getNom() , $Pays->getPopulation(),$Pays->getLangues() , $Pays->getContinent() , $Pays->getImage());
+
+            $paysController = new PaysController();
+            if ($paysController->create($Pays)) {
+                header("Location:../View/Payss.php");
+            } else {
+                echo "something wint wrong in the create";
+            }
+
         }
-
-    }
     }
 ?>

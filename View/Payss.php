@@ -1,79 +1,50 @@
 <?php 
 
 // i do not now what is that for but i will leave it for now 
-include 'connexion.php';
+// include 'connexion.php';
 
-    $data = "SELECT p.nom as nomPays, langues, population ,urlImage , c.nom as nomContinent,p.id_pays from pays p,continent c where p.id_continent = c.id_continent ";
-    $continet = "SELECT * FROM continent.continent";
+//     $data = "SELECT p.nom as nomPays, langues, population ,urlImage , c.nom as nomContinent,p.id_pays from pays p,continent c where p.id_continent = c.id_continent ";
+//     $continet = "SELECT * FROM continent.continent";
 
-    $continentName= $conn->query($continet);
-    $result = $conn->query($data);
+//     $continentName= $conn->query($continet);
+//     $result = $conn->query($data);
 
-    if (isset($_GET['id'])) {
-        $id=$_GET['id'];
-        $sql="SELECT p.nom as nomPays, langues, population ,urlImage , c.nom as nomContinent,p.id_pays from pays p,continent c where p.id_continent = c.id_continent and id_pays=$id ";
-        $q = $conn->query($sql);
-        $ligne= $q->fetch_assoc();
-        $nomPays = $ligne['nomPays'];
-        $population = $ligne['population'];
-        $langues = $ligne['langues'];
-        $nomContinent = $ligne['nomContinent'];
-        $urlImage = $ligne['urlImage'];
-    }
+//     if (isset($_GET['id'])) {
+//         $id=$_GET['id'];
+//         $sql="SELECT p.nom as nomPays, langues, population ,urlImage , c.nom as nomContinent,p.id_pays from pays p,continent c where p.id_continent = c.id_continent and id_pays=$id ";
+//         $q = $conn->query($sql);
+//         $ligne= $q->fetch_assoc();
+//         $nomPays = $ligne['nomPays'];
+//         $population = $ligne['population'];
+//         $langues = $ligne['langues'];
+//         $nomContinent = $ligne['nomContinent'];
+//         $urlImage = $ligne['urlImage'];
+//     }
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: 
 
 // here i get all the pays we have to display them 
 
-include '../Controller/PaysController.php';
+require_once '../Controller/PaysController.php';
 
 $paysController = new PaysController();
+$allPays = $paysController->readAll(1);
 
-$allPays = $paysController->readAll(); 
+if (isset($_GET['id'])) {
+    $idenP=$_GET['id'];
+    $pays=$paysController->getElementById($idenP);
+    $pays = $pays[0];
+    $nomPays = $pays['nom'];
+    $population = $pays['population'];
+    $langues = $pays['langues'];
+    $nomContinent = $pays['id_continent'];
+    $urlImage = $pays['image'];
 
-
-foreach ($allPays as $pays) {
-
-    echo  $pays['nom']);
     
 }
 
 
-<?php
-if (!empty($allPays)) {
-    foreach ($allPays as $pays) {
-        ?>
-        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-            <img class="w-full h-40 object-cover" src="<?php echo $row['urlImage']; ?>" alt="Image de <?php echo $row['nomPays']; ?>">
-            <div class="p-4">
-                <h5 class="text-xl font-semibold mb-2 text-gray-800"><?=$pays['id'] ?></h5>
-                <p class="text-gray-600 mb-1">Continent : <?php echo $row['nomContinent']; ?></p>
-                <p class="text-gray-600 mb-1">Langues : <?php echo $row['langues']; ?></p>
-                <div class="flex justify-between">
-                <p class="text-gray-600">Population : <?php echo $row['population']; ?></p>
-                <div class="flex gap-2 items-center justify-center">
-                <button 
-                    onclick="
-                        
-                        window.location.href = 'Payss.php?id=<?= $row['id_pays']; ?>';
-                    ">
-                    <img class="w-4 h-4 cursor-pointer" src="img/editinggh.png" alt="">
-                </button>
-                        
-                
-                <a href="../Controller/delete.php?id=<?php echo $row['id_pays']; ?>">
-                        <img class="w-4 h-4 cursor-pointer" src="img/delete.png" alt="">
-                </a>
-                <a href="ville.php?id=<?php echo $row['id_pays']; ?>">Show</a>
-                </div>
-                </div>
-            </div>
-        </div>
-        <?php
-    }
-} else {
-    echo "<p class='text-center text-gray-700'>Aucun continent trouvé.</p>";
-}
-?>
+
+
 
     
     
@@ -173,39 +144,36 @@ if (!empty($allPays)) {
                 <h1> Pays</h1>
 
             <div class="flex gap-4">
-                    <button id="add-etd" onclick=" document.getElementById('modal').classList.remove('hidden')" class="animate__pulse flex gap-2 items-center bg-[#4790cd] px-4 py-2 rounded-lg text-white ">
+                    <button id="add-etd" onclick="document.getElementById('modal').classList.remove('hidden')" class="animate__pulse flex gap-2 items-center bg-[#4790cd] px-4 py-2 rounded-lg text-white ">
                         <img src="img/_Avatar add button.svg " alt="">Ajouter Pays
                     </button>
             </div>
             </div> 
         <div class="container mx-auto mt-10 px-4">
         <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <?php
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
+        <?php
+            if (!empty($allPays)) {
+                foreach ($allPays as $pays) {
                     ?>
                     <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                        <img class="w-full h-40 object-cover" src="<?php echo $row['urlImage']; ?>" alt="Image de <?php echo $row['nomPays']; ?>">
+                        <img class="w-full h-40 object-cover" src="img/<?= $pays['image']; ?>" alt="Image de <?= $pays['nom']; ?>">
                         <div class="p-4">
-                            <h5 class="text-xl font-semibold mb-2 text-gray-800"><?php echo $row['nomPays']; ?></h5>
-                            <p class="text-gray-600 mb-1">Continent : <?php echo $row['nomContinent']; ?></p>
-                            <p class="text-gray-600 mb-1">Langues : <?php echo $row['langues']; ?></p>
+                            <h5 class="text-xl font-semibold mb-2 text-gray-800"><?=$pays['nom'] ?></h5>
+                            <p class="text-gray-600 mb-1">Continent : <?= $pays['id_continent']; ?></p>
+                            <p class="text-gray-600 mb-1">Langues : <?= $pays['langues']; ?></p>
                             <div class="flex justify-between">
-                            <p class="text-gray-600">Population : <?php echo $row['population']; ?></p>
+                            <p class="text-gray-600">Population : <?= $pays['population']; ?></p>
                             <div class="flex gap-2 items-center justify-center">
-                            <button 
-                                onclick="
-                                    
-                                    window.location.href = 'Payss.php?id=<?= $row['id_pays']; ?>';
+                            <button onclick=" window.location.href = 'Payss.php?id=<?= $pays['id_pays']; ?>';
                                 ">
                                 <img class="w-4 h-4 cursor-pointer" src="img/editinggh.png" alt="">
                             </button>
                                     
                             
-                            <a href="../Controller/delete.php?id=<?php echo $row['id_pays']; ?>">
+                            <a href="../Controller/delete.php?id=<?= $pays['id_pays']; ?>">
                                     <img class="w-4 h-4 cursor-pointer" src="img/delete.png" alt="">
                             </a>
-                            <a href="ville.php?id=<?php echo $row['id_pays']; ?>">Show</a>
+                            <a href="ville.php?id=<?= $pays['id_pays']; ?>">Show</a>
                             </div>
                             </div>
                         </div>
@@ -219,13 +187,14 @@ if (!empty($allPays)) {
         </div>
         </div>
     </section>
-    <div id="modal" class="">
+
+    <div id="modal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
         <div class="bg-white w-full max-w-lg p-6 rounded-md shadow-lg space-y-4">
         <h2 class="text-xl font-semibold text-gray-700">Ajouter un pays</h2>
-        <form action="../Controller/ajouterP.php?<?php if (isset($_GET['id'])) {
+        <form  action="../Controller/ajouterP.php?<?php if (isset($_GET['id'])) {
             echo "id=Update";
         }
-        ?>" method="POST" class="space-y-4">
+        ?>" method="POST" enctype="multipart/form-data" class="space-y-4">
             <div>
                 <input type="hidden" name= "id" value = " <?php echo isset($_GET['id']) ? $_GET['id'] : ''; ?> " >
                 <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
@@ -241,7 +210,7 @@ if (!empty($allPays)) {
             </div>
             <div>
                 <label for="urlImage" class="block text-sm font-medium text-gray-700">URL Image</label>
-                <input type="url" value="<?php if (isset($_GET['id'])) {
+                <input type="file" value="<?php if (isset($_GET['id'])) {
                     echo "$urlImage";
                 }?>" id="urlImage" name="urlImage" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
             </div>
@@ -252,7 +221,9 @@ if (!empty($allPays)) {
                 }?>" id="langues" name="langues" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
             </div>
             <div>
-                <select name="continent" id="" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                <select name="continent" id="" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500" >
+                <option value="1"> africa</option>
+                    
                     <?php
                         if ($continentName->num_rows > 0) {
                             while($conN=$continentName->fetch_assoc()){
@@ -279,17 +250,18 @@ if (!empty($allPays)) {
         </form>
     </div>
 </div>
-
+    
 
 <script>
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get('id');
+// const id = 1
 
 if (id) {
 document.getElementById('modal').classList.remove('hidden');
 }
 
-</script>
+</script> 
 
 </body>
 </html>

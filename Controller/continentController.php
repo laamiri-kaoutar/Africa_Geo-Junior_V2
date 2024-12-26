@@ -6,10 +6,8 @@ require_once '../Model/Continent.php';
 class ContinentController{
     private $pdo;
 
-    public function __construct{
-        $pdo = new GestionBaseDeDonnees();
-        $this->pdo = $pdo->getDB();
-        
+    public function __construct(){
+        $this->pdo = new GestionBaseDeDonnees();
     }
 
     public function create(Continent $continent ){

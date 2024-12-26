@@ -21,7 +21,7 @@ class Pays {
     public function getId() { return $this->id; }
     public function getNom() { return $this->nom; }
     public function getPopulation() { return $this->population; }
-    public function getLangue() { return $this->langue; }
+    public function getLangues() { return $this->langue; }
     public function getContinent() { return $this->continent; }
     public function getImage() { return $this->image; }
 

@@ -5,6 +5,4 @@
     $conn->query($delted);
 
     header("Location: Payss.php");
-
-
 ?>
