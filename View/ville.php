@@ -141,7 +141,7 @@ $allvilles = $villeController->readAll($id);
                             </button>
                                     
                             
-                            <a href="deleteV.php?id=<?= $ville['id_pays'] ?>&idCity=<?= $ville['id_ville'] ?>">
+                            <a href="../Controller/deleteV.php?id=<?= $ville['id_pays'] ?>&idCity=<?= $ville['id_ville'] ?>">
                                     <img class="w-4 h-4 cursor-pointer" src="img/delete.png" alt="">
                             </a>
                             </div>
