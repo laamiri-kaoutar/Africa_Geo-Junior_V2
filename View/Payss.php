@@ -1,4 +1,6 @@
 <?php 
+
+// i do not now what is that for but i will leave it for now 
 include 'connexion.php';
 
     $data = "SELECT p.nom as nomPays, langues, population ,urlImage , c.nom as nomContinent,p.id_pays from pays p,continent c where p.id_continent = c.id_continent ";
@@ -18,7 +20,61 @@ include 'connexion.php';
         $nomContinent = $ligne['nomContinent'];
         $urlImage = $ligne['urlImage'];
     }
+// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: 
+
+// here i get all the pays we have to display them 
+
+include '../Controller/PaysController.php';
+
+$paysController = new PaysController();
+
+$allPays = $paysController->readAll(); 
+
+
+foreach ($allPays as $pays) {
+
+    echo  $pays['nom']);
     
+}
+
+
+<?php
+if (!empty($allPays)) {
+    foreach ($allPays as $pays) {
+        ?>
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <img class="w-full h-40 object-cover" src="<?php echo $row['urlImage']; ?>" alt="Image de <?php echo $row['nomPays']; ?>">
+            <div class="p-4">
+                <h5 class="text-xl font-semibold mb-2 text-gray-800"><?=$pays['id'] ?></h5>
+                <p class="text-gray-600 mb-1">Continent : <?php echo $row['nomContinent']; ?></p>
+                <p class="text-gray-600 mb-1">Langues : <?php echo $row['langues']; ?></p>
+                <div class="flex justify-between">
+                <p class="text-gray-600">Population : <?php echo $row['population']; ?></p>
+                <div class="flex gap-2 items-center justify-center">
+                <button 
+                    onclick="
+                        
+                        window.location.href = 'Payss.php?id=<?= $row['id_pays']; ?>';
+                    ">
+                    <img class="w-4 h-4 cursor-pointer" src="img/editinggh.png" alt="">
+                </button>
+                        
+                
+                <a href="../Controller/delete.php?id=<?php echo $row['id_pays']; ?>">
+                        <img class="w-4 h-4 cursor-pointer" src="img/delete.png" alt="">
+                </a>
+                <a href="ville.php?id=<?php echo $row['id_pays']; ?>">Show</a>
+                </div>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+} else {
+    echo "<p class='text-center text-gray-700'>Aucun continent trouvé.</p>";
+}
+?>
+
     
     
 

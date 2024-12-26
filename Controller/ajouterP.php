@@ -1,29 +1,54 @@
 <?php
-    include 'connexion.php';
+    include '../Controller/PaysController.php';
     if (isset($_GET['id'])) {
-        $nomP = $_POST["nom"];
-        $continentP=$_POST["continent"];
-        $languesP =$_POST["langues"];
-        $urlImageP =$_POST["urlImage"];
-        $populationP =$_POST["population"];
-        $idP=$_POST['id'];
-        $sql="UPDATE pays set nom='$nomP', population='$populationP', langues='$languesP', urlImage='$urlImageP', id_continent='$continentP' where id_pays = '$idP' ";
-        $conn->query($sql);
-        header("Location: Payss.php");
-    }else{ 
-    if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
+    if($_SERVER['REQUEST_METHOD'] == "POST" ) {
+
+        $image = $_FILES['image']['name'];
+        $tempname = $_FILES['image']['tmp_name'];
+        // i have to change the path here to be exactly where we want to add the image
+        $folder = 'assets/img/'.$image; 
+        move_uploaded_file($tempname , $folder);
+
         $nom = $_POST["nom"];
         $continent=$_POST["continent"];
         $langues =$_POST["langues"];
-        $urlImage =$_POST["urlImage"];
         $population =$_POST["population"];
 
-        $data= "INSERT INTO pays (nom, population, langues, urlImage,id_continent) 
-        VALUES ('$nom','$population','$langues','$urlImage','$continent')";
+        $Pays = new Pays(null, $nom, $population, $langue, $continent, $image);
 
-        $conn->query($data);
+        $paysController = new PaysController();
 
-        header("Location: Payss.php");
+        if ($paysController->update($Pays)) {
+            header("Location: Payss.php");
+        } else {
+            echo "something wint wrong in the update";
+        }
+
+       
+       
+    }
+
+    }else{ 
+    if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
+        $image = $_FILES['image']['name'];
+        $tempname = $_FILES['image']['tmp_name'];
+        // i have to change the path here to be exactly where we want to add the image
+        $folder = 'assets/img/'.$image; 
+        move_uploaded_file($tempname , $folder);
+
+        $nom = $_POST["nom"];
+        $continent=$_POST["continent"];
+        $langues =$_POST["langues"];
+        $population =$_POST["population"];
+
+        $Pays = new Pays(null, $nom, $population, $langue, $continent, $image);
+
+        $paysController = new PaysController();
+        if ($paysController->create($Pays)) {
+            header("Location: Payss.php");
+        } else {
+            echo "something wint wrong in the create";
+        }
 
     }
     }

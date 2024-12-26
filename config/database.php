@@ -1,6 +1,6 @@
 <?php
 
-class GestionBaseDeDonnées {
+class GestionBaseDeDonnees {
 
 
     private $pdo;
@@ -9,7 +9,7 @@ class GestionBaseDeDonnées {
     private $username = "root"; 
     private $password = ""; 
 
-    public function getConnection() {
+    public function getDB() {
         $this->conn = null;
      
             $this->pdo = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
@@ -23,7 +23,7 @@ class GestionBaseDeDonnées {
     public function select($query, $params = []) {
         $stmt = $this->pdo->prepare($query);
         $stmt->execute($params);
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Méthode pour exécuter une requête INSERT, UPDATE ou DELETE

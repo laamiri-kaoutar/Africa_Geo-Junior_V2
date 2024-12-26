@@ -22,4 +22,11 @@ class Continent {
     public function setNom($nom) { $this->nom = $nom; }
     public function setNombrePays($nombrePays) { $this->nombrePays = $nombrePays; }
     public function setImage($image) { $this->image = $image; }
+
+ 
+
+
+
+
+
 }
