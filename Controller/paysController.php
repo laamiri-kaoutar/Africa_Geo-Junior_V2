@@ -37,7 +37,7 @@ class PaysController{
     public function getElementById($id){
         $query = "SELECT * FROM pays WHERE id_pays = ? ";
         $params = [$id];
-        return  $this->pdo->select($query , $params);
+        return  $this->pdo->execute($query , $params);
     }
 
 

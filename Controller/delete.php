@@ -1,8 +1,16 @@
 <?php
-    include 'connexion.php';
-    $id=$_GET['id'];
-    $delted = " delete from pays where id_pays = $id ";
-    $conn->query($delted);
 
-    header("Location: Payss.php");
+require_once '../Controller/PaysController.php';
+
+
+    $id=$_GET['id'];
+
+    $paysController = new PaysController();
+
+    if ($paysController->deleteById($id)) {
+        header("Location:../View/Payss.php");
+    } else {
+        echo "something wint wrong in the delete of the $id";
+    }
+
 ?>
