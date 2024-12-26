@@ -1,17 +1,28 @@
 <?php
-    include 'connexion.php';
-    $id=$_GET['id'];
-    $data = "SELECT * from ville where id_pays=$id ";
-    $ville =  $conn->query($data);
-    if (isset($_GET['idCity'])) {
-        $identifient=$_GET["idCity"];
-        $sql="SELECT nom , type, urlVille , id_ville from ville where id_ville = $identifient";
-        $q = $conn->query($sql);
-        $ligne= $q->fetch_assoc();
-        $nom = $ligne['nom'];
-        $type = $ligne['type'];
-        $urlVille = $ligne['urlVille'];
-    }
+
+$id=$_GET['id'];
+
+require_once '../Controller/VilleController.php';
+
+$villeController = new VilleController();
+
+if (isset($_GET['idCity'])) {
+    $idCity=$_GET["idCity"];
+
+    $ville=$villeController->getElementById($idCity);
+    $ville = $ville[0];
+    $nom = $ville['nom'];
+    $type = $ville['type'];
+    $urlVille = $ville['image'];
+    
+}
+
+// these are all the villles of a pays
+
+$allvilles = $villeController->readAll($id);
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -110,27 +121,27 @@
             </div> 
         <div class="container mx-auto mt-10 px-4">
         <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <?php
-            if ($ville->num_rows > 0) {
-                while ($row = $ville->fetch_assoc()) {
+        <?php
+            if (!empty($allvilles)) {
+                foreach ($allvilles as $ville) {
                     ?>
                     <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                        <img class="w-full h-40 object-cover"  src="<?php echo $row['urlVille']; ?>" alt="Image de <?php echo $row['nom']; ?>">
+                        <img class="w-full h-40 object-cover"  src="img/<?php echo $ville['image']; ?>" alt="Image de <?php echo $ville['nom']; ?>">
                         <div class="p-4">
-                            <h5 class="text-xl font-semibold mb-2 text-gray-800"><?php echo $row['nom']; ?></h5>
-                            <p class="text-gray-600 mb-1">Type : <?php echo $row['type']; ?></p>
+                            <h5 class="text-xl font-semibold mb-2 text-gray-800"><?php echo $ville['nom']; ?></h5>
+                            <p class="text-gray-600 mb-1">Type : <?php echo $ville['type']; ?></p>
                             <div class="flex justify-end">
                             <div class="flex gap-2 items-center justify-center">
                             <button 
                                 onclick="
-                                    window.location.href = 'ville.php?id=<?= $row['id_pays'] ?>&idCity=<?= $row['id_ville'] ?>';
-
+                                    window.location.href = 'ville.php?id=<?= $ville['id_pays'] ?>&idCity=<?= $ville['id_ville'] ?>';
+            
                                 ">
                                 <img class="w-4 h-4 cursor-pointer" src="img/editinggh.png" alt="">
                             </button>
                                     
                             
-                            <a href="deleteV.php?id=<?= $row['id_pays'] ?>&idCity=<?= $row['id_ville'] ?>">
+                            <a href="deleteV.php?id=<?= $ville['id_pays'] ?>&idCity=<?= $ville['id_ville'] ?>">
                                     <img class="w-4 h-4 cursor-pointer" src="img/delete.png" alt="">
                             </a>
                             </div>
@@ -149,7 +160,7 @@
     <div id="modal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
         <div class="bg-white w-full max-w-lg p-6 rounded-md shadow-lg space-y-4">
         <h2 class="text-xl font-semibold text-gray-700">Ajouter un pays</h2>
-        <form action="ajouterV.php?id=<?=$id?>&<?php if (isset($_GET['idCity'])) {
+        <form enctype="multipart/form-data" action="../Controller/ajouterV.php?id=<?=$id?>&<?php if (isset($_GET['idCity'])) {
             echo "id=Update";
         }
         ?>" method="POST" class="space-y-4">
@@ -163,9 +174,9 @@
             </div>
             <div>
                 <label for="urlVille" class="block text-sm font-medium text-gray-700">URL Ville</label>
-                <input type="url" value="<?php if (isset($_GET['idCity'])) {
+                <input type="file" value="<?php if (isset($_GET['idCity'])) {
                     echo "$urlVille";
-                }?>" id="urlVille" name="urlVille" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                }?>" id="urlVille" name="image" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
             </div>
             <div>
                 <select name="type" id="" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
