@@ -24,6 +24,8 @@
         $type =$_POST["type"];
         $id_pays = $iden;
 
+
+        
         $ville = new Ville(null, $nom, $type, $id_pays, $image);
             
         $villeController = new VilleController();
