@@ -55,16 +55,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $user->setPassword(password_hash($password,PASSWORD_DEFAULT)); 
         $user->setId($user-> lastInsertId());    
         
-        $userS = [
-            "username"=> $username,
-            "email"=> $email,
-            "role" => "user"   
-        ];
-        
-        $_SESSION["user"] = $userS;
 
         if ($user->create()) {
-            header("Location:../View/ville.php");
+            
+            $_SESSION["connexion"]="true";
+
+            header("Location:connexion.php");
 
         }
     }

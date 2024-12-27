@@ -22,9 +22,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }else {
          $data =$user->getElementByEmail();
          $data = $data[0];
+        //  var_dump($data);
 
          $passwordCheck = password_verify($password, $data['password']);
          var_dump($passwordCheck);
+
          if (!$passwordCheck) {
              $errors["invalidpwd"] = "Invalid password.";
              $_SESSION["errors"] = $errors;
@@ -36,40 +38,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 "role" => $data['role']
             ];
             $_SESSION["user"] = $userS;
-            
+            var_dump($userS);
 
+            header("Location:../View/ville.php");
 
          }
 
     }
-    
-
-    
-    if ($errors) {
-        $_SESSION["errors"] = $errors;
-        $registerData = [
-            "username"=> $username,
-            "email"=> $email
-        ];
-        $_SESSION["registerData"] = $registerData;
-        var_dump(isset($_SESSION["errors"]))  ; 
-        header("Location:../index.php");
-        // die();
-    } else {
-
-        $user->setPassword(password_hash($password,PASSWORD_DEFAULT)); 
-        $user->setId($user-> lastInsertId());      
-  
-
-        $_SESSION["user"] = $user;
-
-        if ($user->create()) {
-            header("Location:../View/ville.php");
-        }
-        die();
-    }
-          
-            
-
      
 } 

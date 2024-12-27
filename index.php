@@ -91,8 +91,12 @@ if (isset($_SESSION["errors"])) {
 
             <!-- Formulaire de connexion -->
             <div class="w-1/2 p-8">
+                        <?php if (isset($errors["notFound"])) {?>
+                           <div class="bg-red-100 border border-red-500 text-red-700 mt-2 px-4 py-2 rounded-full"><?= $errors["notFound"] ?></div>
+                        <?php 
+                        } ?>
                 <h2 class="text-2xl text-primary font-semibold text-center mb-6">Connexion</h2>
-                <form>
+                <form action="Controller/connexion.php" method="POST">
                     <div class="mb-4">
                         <label for="emailConnexion" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
                         <input type="email" name="email" id="emailConnexion" placeholder="Entrez votre email" class="w-full px-4 py-3 border rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300">
@@ -100,6 +104,10 @@ if (isset($_SESSION["errors"])) {
                     <div class="mb-6">
                         <label for="passwordConnexion" class="block text-sm font-medium text-gray-700 mb-1">Mot de passe</label>
                         <input type="password" name="password" id="passwordConnexion" placeholder="Entrez votre mot de passe" class="w-full px-4 py-3 border rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300">
+                        <?php if (isset($errors["invalidpwd"])) {?>
+                           <div class="bg-red-100 border border-red-500 text-red-700 mt-2 px-4 py-2 rounded-full"><?= $errors["invalidpwd"] ?></div>
+                        <?php 
+                        } ?>
                     </div>
                     <button type="submit" class="w-full bg-primary text-white py-3 rounded-full shadow-md hover:bg-blue-700 transition-all duration-300">
                         Se connecter
@@ -112,10 +120,16 @@ if (isset($_SESSION["errors"])) {
         </div>
     </div>
 
+
     <script>
         const formContainer = document.getElementById('formContainer');
         const switchToConnexion = document.getElementById('switchToConnexion');
         const switchToInscrire = document.getElementById('switchToInscrire');
+
+        <?php if (isset($errors["invalidpwd"]) || isset($errors["notFound"]) || isset($_SESSION["connexion"]) ) {?>
+            formContainer.style.transform = 'translateX(-50%)';
+        <?php 
+        } ?>
 
         switchToConnexion.addEventListener('click', () => {
             formContainer.style.transform = 'translateX(-50%)';
