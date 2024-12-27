@@ -34,7 +34,6 @@
 
        if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
 
-        echo "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh";
 
         $image = $_FILES['image']['name'];
         $tempname = $_FILES['image']['tmp_name'];
