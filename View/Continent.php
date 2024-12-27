@@ -1,8 +1,15 @@
 <?php
+
+    require_once '../Controller/continentController.php';
+    session_start();
+
+
     if (isset($_SESSION["user"])) {
         $user=$_SESSION["user"];
+        var_dump($user);
+    }else {
+        header("Location:../index.php");
     }
-    require_once '../Controller/continentController.php';
 
     $continentController = new ContinentController();
     $allContinent = $continentController->readAll();
@@ -109,9 +116,11 @@
                     </form>
                     <div class="flex items-center gap-2 cursor-pointer">
                         <div class=" cursor-pointer w-10 h-10 bg-black bg-cover rounded-full text-white relative ">
-                        <div class="bg-[#228B22] h-3 w-3 rounded-full absolute bottom-0 right-0  "></div>
+                            <div class="bg-[#228B22] h-3 w-3 rounded-full absolute bottom-0 right-0  "></div>
                         </div>
-                    <p class="text-[#606060] font-bold">Malika </p>
+                        <?php if (isset($user)) : ?>
+                            <p class="text-[#606060] font-bold"><?=$user['username'] ?> </p>
+                        <?php endif; ?>
                     </div>
                 </div>
     

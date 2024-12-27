@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION["user"] = $userS;
             var_dump($userS);
 
-            header("Location:../View/ville.php");
+            header("Location:../View/Continent.php");
 
          }
 
