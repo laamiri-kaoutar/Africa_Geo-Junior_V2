@@ -144,6 +144,8 @@ if (isset($_SESSION["errors"])) {
 <?php 
       unset($_SESSION['errors']);
       unset( $_SESSION["registerData"]);
+      unset($_SESSION["connexion"]);
+
 ?>
 
 </html>

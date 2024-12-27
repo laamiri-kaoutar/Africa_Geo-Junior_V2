@@ -57,11 +57,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         
 
         if ($user->create()) {
-            
+
             $_SESSION["connexion"]="true";
 
-            header("Location:connexion.php");
-
+                 header("Location:../index.php");
         }
     }
           
