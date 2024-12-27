@@ -1,5 +1,5 @@
 <?php
-    require_once '../Controller/PaysController.php';
+    require_once 'PaysController.php';
     if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
 
         if (isset($_GET['id'])) {

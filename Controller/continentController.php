@@ -21,16 +21,21 @@ class ContinentController{
         return  $this->pdo->select($query);
     }
 
-    public function update(Continent $continent ){
-        $query = "UPDATE Continent set nom = ? ,image = ? ,nombrePays = ? WHERE id = ?";
-        $params = [$continent->getNom() , $continent->getImage(),$continet->getNombrePays() ,$continent->getId()];
+    public function update(Continent $continent){
+        $query = "UPDATE Continent set nom = ? ,image = ? ,nombrePays = ? WHERE id_continent = ?";
+        $params = [$continent->getNom() , $continent->getImage(),$continent->getNombrePays() ,$continent->getId()];
         return  $this->pdo->execute($query, $params);
     }
 
-    public function delete(Continent $continent ){
-        $query = "DELETE FROM  Continent  WHERE id = ?";
-        $params = [$continent->getId()];
+    public function deleteById($id){
+        $query = "DELETE FROM  Continent  WHERE id_continent = ?";
+        $params = [$id];
         return  $this->pdo->execute($query, $params);
+    }
+    public function getElementById($id){
+        $query = "SELECT * FROM continent WHERE id_continent = ? ";
+        $params = [$id];
+        return  $this->pdo->select($query , $params);
     }
 
 
