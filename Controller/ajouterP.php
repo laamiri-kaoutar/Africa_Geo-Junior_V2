@@ -10,7 +10,7 @@
                 // i have to change the path here to be exactly where we want to add the image
                 $folder = '../View/img/'.$image; 
                 move_uploaded_file($tempname , $folder);
-
+                $idenc=$_GET['idC'];
                 $nom = $_POST["nom"];
                 var_dump('nom', $nom);
                 $continent=$_POST["continent"];
@@ -30,7 +30,7 @@
                 $paysController = new PaysController();
                 if ($paysController->update($Pays)) {
                     var_dump($Pays);
-                    header("Location:../View/Payss.php");
+                    header("Location:../View/Payss.php?idC=$idenc");
                 }  {
                     echo "something wint wrong in the update";
                 }
@@ -50,6 +50,7 @@
 
             // $image = $_POST['urlImage'];
             var_dump($image);
+            $idenc=$_GET['idC'];
 
 
             $nom = $_POST["nom"];
@@ -63,7 +64,7 @@
 
             $paysController = new PaysController();
             if ($paysController->create($Pays)) {
-                header("Location:../View/Payss.php");
+                header("Location:../View/Payss.php?idC=$idenc");
             } else {
                 echo "something wint wrong in the create";
             }

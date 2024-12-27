@@ -70,10 +70,7 @@
         <div class="">
             <div class="grid gap-4 w-[100%]">
                 <a href="" class="flex gap-4 px-4 py-2 rounded-2xl"><img src="img/home.svg" alt=""> Dashboard </a>
-            
-                <a href='' class='flex gap-4 px-4 py-2 rounded-2xl'><img src='img/3 User.svg' alt=''> Continent </a>
-                <a href='' class='flex gap-4 px-4 py-2 rounded-2xl'><img id='btn-icon' class='mt-1' src='img/act.svg' alt=''> Pays</a>
-                <a href="" class="flex gap-4 px-4 py-2 rounded-2xl"><img src="img/Settings_Future.svg" alt=""> Ville </a>
+                <a href='' class='flex gap-4 px-4 py-2 rounded-2xl'><img id='btn-icon' class='mt-1' src='img/act.svg' alt=''> Continent</a>
             </div>
         </div>
     </aside>
@@ -120,10 +117,6 @@
             if (!empty($allContinent)) {
                 foreach ($allContinent as $continent) {
                     ?>
-                        <!-- private $id;
-                        private $nom;
-                        private $nombrePays;
-                        private $image; -->
                     <div class="bg-white shadow-lg rounded-lg overflow-hidden">
                         <img class="w-full h-40 object-cover"  src="img/<?php echo $continent['image']; ?>" alt="Image de <?php echo $continent['nom']; ?>">
                         <div class="p-4">
@@ -143,6 +136,7 @@
                             <a href="../Controller/deleteC.php?id=<?= $continent['id_continent'] ?>">
                                 <img class="w-4 h-4 cursor-pointer" src="img/delete.png" alt="">
                             </a>
+                            <a href="Payss.php?idC=<?= $continent['id_continent'] ?>">Show</a>
                             </div>
                         </div>
                         </div>

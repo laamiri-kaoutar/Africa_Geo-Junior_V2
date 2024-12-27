@@ -17,7 +17,6 @@ class PaysController{
     }
 
     public function readAll($id_continent){
-        $id_continent= 1;
         $query = "SELECT * FROM pays where id_continent = ?";
         $params = [$id_continent];
         return  $this->pdo->select($query , $params);

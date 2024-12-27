@@ -76,12 +76,9 @@ $allvilles = $villeController->readAll($id);
             <img src="img/africa.png" alt="">
         </div>
         <div class="">
-            <div class="grid gap-4 w-[100%]">
+        <div class="grid gap-4 w-[100%]">
                 <a href="" class="flex gap-4 px-4 py-2 rounded-2xl"><img src="img/home.svg" alt=""> Dashboard </a>
-            
-                <a href='' class='flex gap-4 px-4 py-2 rounded-2xl'><img src='img/3 User.svg' alt=''> Continent </a>
-                <a href='' class='flex gap-4 px-4 py-2 rounded-2xl'><img id='btn-icon' class='mt-1' src='img/act.svg' alt=''> Pays</a>
-                <a href="" class="flex gap-4 px-4 py-2 rounded-2xl"><img src="img/Settings_Future.svg" alt=""> Ville </a>
+                <a href='' class='flex gap-4 px-4 py-2 rounded-2xl'><img id='btn-icon' class='mt-1' src='img/act.svg' alt=''> Continent</a>
             </div>
         </div>
     </aside>
@@ -189,12 +186,11 @@ $allvilles = $villeController->readAll($id);
                 </select>
             </div>
             <div class="flex justify-end space-x-2">
-                <button type="button" onclick=" document.getElementById('modal').classList.add('hidden');" class="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600">Annuler</button>
+            <button type="button" onclick="closeModal();" class="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600">Annuler</button>
                 <button type="submit" name="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
                 <?php
                             if (isset($_GET['idCity'])) {
                                 echo "Modifer";
-                                var_dump($_GET['idCity']);
                             }else {
                                 echo "Ajouter";
                             }
@@ -212,6 +208,15 @@ const id = urlParams.get('idCity');
 
 if (id) {
 document.getElementById('modal').classList.remove('hidden');
+}
+function closeModal() {
+    // Cache le modal
+    document.getElementById('modal').classList.add('hidden');
+    
+    // Supprime le paramètre 'id' de l'URL
+    const url = new URL(window.location);
+    url.searchParams.delete('idCity');
+    window.history.replaceState(null, '', url);
 }
 
 </script>
