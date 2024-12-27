@@ -1,10 +1,17 @@
 <?php
-
-$id=$_GET['id'];
-
 require_once '../Controller/VilleController.php';
+require_once '../Controller/PaysController.php';
 
 $villeController = new VilleController();
+
+$paysController = new PaysController();
+if (isset($_GET['id'])) {
+    $id=$_GET['id'];
+    $pays=$paysController->getElementById($id);
+    $pays = $pays[0];
+    $nompays = $pays['nom'];
+}
+
 
 if (isset($_GET['idCity'])) {
     $idCity=$_GET["idCity"];
@@ -42,6 +49,23 @@ $allvilles = $villeController->readAll($id);
             border-collapse: collapse;
 
 
+        }
+        @keyframes colorFade {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-color-fade {
+            animation: colorFade 1.5s ease-in-out;
         }
 
     </style>
@@ -108,12 +132,18 @@ $allvilles = $villeController->readAll($id);
         
     <section class="p-4">
         <div class="flex justify-between items-center px-8">
-                <h1> ville</h1>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-center mt-8 mb-6 uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-green-500 to-purple-600 animate-color-fade">
+            Ville de <?=$nompays?>
+        </h1>
 
             <div class="flex gap-4">
-                    <button id="add-etd" onclick=" document.getElementById('modal').classList.remove('hidden')" class="animate__pulse flex gap-2 items-center bg-[#4790cd] px-4 py-2 rounded-lg text-white ">
-                        <img src="img/_Avatar add button.svg " alt="">Ajouter Ville
-                    </button>
+                <?php if (isset($user)) : ?>
+                    <?php if ($user['role'] === 'admin') :?>
+                        <button id="add-etd" onclick=" document.getElementById('modal').classList.remove('hidden')" class="animate__pulse flex gap-2 items-center bg-[#4790cd] px-4 py-2 rounded-lg text-white ">
+                            <img src="img/_Avatar add button.svg " alt="">Ajouter Ville
+                        </button>
+                    <?php endif; ?>
+                <?php endif; ?>
             </div>
             </div> 
         <div class="container mx-auto mt-10 px-4">
@@ -129,18 +159,24 @@ $allvilles = $villeController->readAll($id);
                             <p class="text-gray-600 mb-1">Type : <?php echo $ville['type']; ?></p>
                             <div class="flex justify-end">
                             <div class="flex gap-2 items-center justify-center">
-                            <button 
-                                onclick="
-                                    window.location.href = 'ville.php?id=<?= $ville['id_pays'] ?>&idCity=<?= $ville['id_ville'] ?>';
-            
-                                ">
-                                <img class="w-4 h-4 cursor-pointer" src="img/editinggh.png" alt="">
-                            </button>
+                            <?php if (isset($user)) : ?>
+                                <?php if ($user['role'] === 'admin') :?>
+                                    <button 
+                                    onclick="
+                                    window.location.href = 'ville.php?id=<?= $ville['id_pays'] ?>&idCity=<?= $ville['id_ville'] ?>';">
+                                        <img class="w-4 h-4 cursor-pointer" src="img/editinggh.png" alt="">
+                                    </button>
+                                <?php endif; ?>
+                            <?php endif; ?>
                                     
                             
-                            <a href="../Controller/deleteV.php?id=<?= $ville['id_pays'] ?>&idCity=<?= $ville['id_ville'] ?>">
-                                    <img class="w-4 h-4 cursor-pointer" src="img/delete.png" alt="">
-                            </a>
+                            <?php if (isset($user)) : ?>
+                                <?php if ($user['role'] === 'admin') :?>
+                                    <a href="../Controller/deleteV.php?id=<?= $ville['id_pays'] ?>&idCity=<?= $ville['id_ville'] ?>">
+                                        <img class="w-4 h-4 cursor-pointer" src="img/delete.png" alt="">
+                                    </a>
+                                <?php endif; ?>
+                            <?php endif; ?>
                             </div>
                         </div>
                         </div>

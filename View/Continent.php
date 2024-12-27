@@ -1,4 +1,7 @@
 <?php
+    if (isset($_SESSION["user"])) {
+        $user=$_SESSION["user"];
+    }
     require_once '../Controller/continentController.php';
 
     $continentController = new ContinentController();
@@ -35,6 +38,23 @@
             border-collapse: collapse;
 
 
+        }
+        @keyframes colorFade {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-color-fade {
+            animation: colorFade 1.5s ease-in-out;
         }
     </style>
     <script>
@@ -100,16 +120,28 @@
         
     <section class="p-4">
         <div class="flex justify-between items-center px-8">
-                <h1> ville</h1>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-center mt-8 mb-6 uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-green-500 to-purple-600 animate-color-fade">
+            Continent
+        </h1>
 
 
-                
 
-            <div class="flex gap-4">
-                    <button id="add-etd" onclick=" document.getElementById('modal').classList.remove('hidden')" class="animate__pulse flex gap-2 items-center bg-[#4790cd] px-4 py-2 rounded-lg text-white ">
-                        <img src="img/_Avatar add button.svg " alt="">Ajouter Continent
-                    </button>
-            </div>
+
+
+            <?php if (isset($user)) : ?>
+                <?php if ($user['role'] === 'admin') :?>
+                    <div class="flex gap-4">
+                        <button 
+                            id="add-etd" 
+                            onclick="document.getElementById('modal').classList.remove('hidden')" 
+                            class="animate__pulse flex gap-2 items-center bg-[#4790cd] px-4 py-2 rounded-lg text-white">
+                            <img src="img/_Avatar add button.svg" alt=""> Ajouter Continent
+                        </button>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
+
+            
             </div> 
         <div class="container mx-auto mt-10 px-4">
         <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -124,18 +156,26 @@
                             <p class="text-gray-600 mb-1">Nombre pays : <?php echo $continent['nombrePays']; ?></p>
                             <div class="flex justify-end">
                             <div class="flex gap-2 items-center justify-center">
-                            <button 
-                                onclick="
-                                    window.location.href = 'Continent.php?id=<?= $continent['id_continent'] ?>';
-            
-                                ">
-                                <img class="w-4 h-4 cursor-pointer" src="img/editinggh.png" alt="">
-                            </button>
+                            <?php if (isset($user)) : ?>
+                                <?php if ($user['role'] === 'admin') :?>
+                                    <button 
+                                        onclick="
+                                            window.location.href = 'Continent.php?id=<?= $continent['id_continent'] ?>';
+                    
+                                        ">
+                                        <img class="w-4 h-4 cursor-pointer" src="img/editinggh.png" alt="">
+                                    </button>
+                                <?php endif; ?>
+                            <?php endif; ?>
                                     
                             
-                            <a href="../Controller/deleteC.php?id=<?= $continent['id_continent'] ?>">
-                                <img class="w-4 h-4 cursor-pointer" src="img/delete.png" alt="">
-                            </a>
+                            <?php if (isset($user)) : ?>
+                                <?php if ($user['role'] === 'admin') :?>
+                                    <a href="../Controller/deleteC.php?id=<?= $continent['id_continent'] ?>" >
+                                        <img class="w-4 h-4 cursor-pointer" src="img/delete.png" alt="Supprimer">
+                                    </a>
+                                <?php endif; ?>
+                            <?php endif; ?>
                             <a href="Payss.php?idC=<?= $continent['id_continent'] ?>">Show</a>
                             </div>
                         </div>
