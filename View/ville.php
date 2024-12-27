@@ -126,7 +126,7 @@ $allvilles = $villeController->readAll($id);
                 <div class="flex w-72 justify-between  items-center ">
                     <img class="cursor-pointer" src="img/settings.svg" alt="">
                     <img class="cursor-pointer" src="img/Icon.svg" alt="">
-                    <form action="" action="post">
+                    <form action="../Controller/logout.php" action="post">
                         <button><img src="img/logout.png" class="h-4 w-4" alt=""></button>
                     </form>
                     <div class="flex items-center gap-2 cursor-pointer">
