@@ -118,7 +118,7 @@ if (isset($_GET['id'])) {
         <div class="">
         <div class="grid gap-4 w-[100%]">
                 <a href="" class="flex gap-4 px-4 py-2 rounded-2xl"><img src="img/home.svg" alt=""> Dashboard </a>
-                <a href='' class='flex gap-4 px-4 py-2 rounded-2xl'><img id='btn-icon' class='mt-1' src='img/act.svg' alt=''> Continent</a>
+                <a href='./Continent.php' class='flex gap-4 px-4 py-2 rounded-2xl'><img id='btn-icon' class='mt-1' src='img/act.svg' alt=''> Continent</a>
             </div>
         </div>
     </aside>
@@ -174,7 +174,7 @@ if (isset($_GET['id'])) {
                         <img class="w-full h-40 object-cover" src="img/<?= $pays['image']; ?>" alt="Image de <?= $pays['nom']; ?>">
                         <div class="p-4">
                             <h5 class="text-xl font-semibold mb-2 text-gray-800"><?=$pays['nom'] ?></h5>
-                            <p class="text-gray-600 mb-1">Continent : <?= $pays['id_continent']; ?></p>
+                            <p class="text-gray-600 mb-1">Continent : <?= $nomContinent?></p>
                             <p class="text-gray-600 mb-1">Langues : <?= $pays['langues']; ?></p>
                             <div class="flex justify-between">
                             <p class="text-gray-600">Population : <?= $pays['population']; ?></p>

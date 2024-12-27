@@ -78,6 +78,26 @@ $allvilles = $villeController->readAll($id);
             animation: colorFade 1.5s ease-in-out;
         }
 
+        /* Couleurs principales */
+        .bg-primary {
+            background-color: #5051FA; /* Bleu principal */
+        }
+        
+        .border-primary {
+            border: 2px solid #5051FA; /* Bordure bleue pour les capitales */
+        }
+        
+        /* Badge pour les capitales */
+        .absolute {
+            position: absolute;
+        }
+        
+        .absolute .bg-primary {
+            border-radius: 4px; /* Arrondi pour le badge */
+            font-size: 0.75rem; /* Texte petit */
+        }
+
+
     </style>
     <script>
         tailwind.config = {
@@ -112,7 +132,7 @@ $allvilles = $villeController->readAll($id);
         <div class="">
         <div class="grid gap-4 w-[100%]">
                 <a href="" class="flex gap-4 px-4 py-2 rounded-2xl"><img src="img/home.svg" alt=""> Dashboard </a>
-                <a href='' class='flex gap-4 px-4 py-2 rounded-2xl'><img id='btn-icon' class='mt-1' src='img/act.svg' alt=''> Continent</a>
+                <a href='./Continent.php' class='flex gap-4 px-4 py-2 rounded-2xl'><img id='btn-icon' class='mt-1' src='img/act.svg' alt=''> Continent</a>
             </div>
         </div>
     </aside>
@@ -163,42 +183,53 @@ $allvilles = $villeController->readAll($id);
         <?php
             if (!empty($allvilles)) {
                 foreach ($allvilles as $ville) {
-                    ?>
-                    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                        <img class="w-full h-40 object-cover"  src="img/<?php echo $ville['image']; ?>" alt="Image de <?php echo $ville['nom']; ?>">
-                        <div class="p-4">
-                            <h5 class="text-xl font-semibold mb-2 text-gray-800"><?php echo $ville['nom']; ?></h5>
-                            <p class="text-gray-600 mb-1">Type : <?php echo $ville['type']; ?></p>
-                            <div class="flex justify-end">
+            ?>
+                <div class="relative bg-white shadow-lg rounded-lg overflow-hidden 
+                    <?php echo $ville['type'] === 'capitale' ? 'border-primary' : ''; ?>">
+                    
+                    <!-- Image -->
+                    <img class="w-full h-40 object-cover" src="img/<?php echo $ville['image']; ?>" alt="Image de <?php echo $ville['nom']; ?>">
+            
+                    <!-- Badge pour les capitales -->
+                    <?php if ($ville['type'] === 'capitale') : ?>
+                        <div class="absolute top-2 left-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded">
+                            Capitale
+                        </div>
+                    <?php endif; ?>
+            
+                    <!-- Détails de la ville -->
+                    <div class="p-4">
+                        <h5 class="text-xl font-semibold mb-2 text-gray-800"><?php echo $ville['nom']; ?></h5>
+                        <p class="text-gray-600 mb-1">Type : <?php echo $ville['type']; ?></p>
+                        <div class="flex justify-end">
                             <div class="flex gap-2 items-center justify-center">
-                            <?php if (isset($user)) : ?>
-                                <?php if ($user['role'] === 'admin') :?>
-                                    <button 
-                                    onclick="
-                                    window.location.href = 'ville.php?id=<?= $ville['id_pays'] ?>&idCity=<?= $ville['id_ville'] ?>';">
-                                        <img class="w-4 h-4 cursor-pointer" src="img/editinggh.png" alt="">
-                                    </button>
+                                <?php if (isset($user)) : ?>
+                                    <?php if ($user['role'] === 'admin') : ?>
+                                        <button 
+                                            onclick="
+                                            window.location.href = 'ville.php?id=<?= $ville['id_pays'] ?>&idCity=<?= $ville['id_ville'] ?>';">
+                                            <img class="w-4 h-4 cursor-pointer" src="img/editinggh.png" alt="">
+                                        </button>
+                                    <?php endif; ?>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                                    
-                            
-                            <?php if (isset($user)) : ?>
-                                <?php if ($user['role'] === 'admin') :?>
-                                    <a href="../Controller/deleteV.php?id=<?= $ville['id_pays'] ?>&idCity=<?= $ville['id_ville'] ?>">
-                                        <img class="w-4 h-4 cursor-pointer" src="img/delete.png" alt="">
-                                    </a>
+                                <?php if (isset($user)) : ?>
+                                    <?php if ($user['role'] === 'admin') : ?>
+                                        <a href="../Controller/deleteV.php?id=<?= $ville['id_pays'] ?>&idCity=<?= $ville['id_ville'] ?>">
+                                            <img class="w-4 h-4 cursor-pointer" src="img/delete.png" alt="">
+                                        </a>
+                                    <?php endif; ?>
                                 <?php endif; ?>
-                            <?php endif; ?>
                             </div>
                         </div>
-                        </div>
                     </div>
-                    <?php
+                </div>
+            <?php
                 }
             } else {
                 echo "<p class='text-center text-gray-700'>Aucun continent trouvé.</p>";
             }
             ?>
+
         </div>
         </div>
     </section>

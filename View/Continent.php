@@ -6,7 +6,7 @@
 
     if (isset($_SESSION["user"])) {
         $user=$_SESSION["user"];
-        var_dump($user);
+        // var_dump($user);
     }else {
         header("Location:../index.php");
     }
@@ -97,7 +97,7 @@
         <div class="">
             <div class="grid gap-4 w-[100%]">
                 <a href="" class="flex gap-4 px-4 py-2 rounded-2xl"><img src="img/home.svg" alt=""> Dashboard </a>
-                <a href='' class='flex gap-4 px-4 py-2 rounded-2xl'><img id='btn-icon' class='mt-1' src='img/act.svg' alt=''> Continent</a>
+                <a href='./Continent.php' class='flex gap-4 px-4 py-2 rounded-2xl'><img id='btn-icon' class='mt-1' src='img/act.svg' alt=''> Continent</a>
             </div>
         </div>
     </aside>

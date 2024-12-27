@@ -18,7 +18,7 @@ class VilleController{
 
 
     public function readAll($id_Pays){
-        $query = "SELECT * FROM Ville where id_Pays= ?";
+        $query = "SELECT * FROM Ville where id_Pays= ? ORDER BY type = 'capitale' DESC";
         $params = [$id_Pays];
         return  $this->pdo->select($query , $params);
     }
