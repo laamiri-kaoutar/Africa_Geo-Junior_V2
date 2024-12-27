@@ -24,7 +24,7 @@ class VilleController{
     }
 
     public function update(Ville $Ville){
-        $query = "UPDATE Ville SET nom = ?,type= ? ,id_pays= ? ,image= ? WHERE id_pays = ?";
+        $query = "UPDATE Ville SET nom = ?,type= ? ,id_pays= ? ,image= ? WHERE id_ville = ?";
         $params = [$Ville->getNom() , $Ville->getType(),$Ville->getPays() , $Ville->getImage() , $Ville->getId() ];
         return  $this->pdo->execute($query, $params);
     }

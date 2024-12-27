@@ -12,5 +12,3 @@ require_once '../Controller/PaysController.php';
     } else {
         echo "something wint wrong in the delete of the $id";
     }
-
-?>

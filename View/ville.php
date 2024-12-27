@@ -113,9 +113,6 @@ $allvilles = $villeController->readAll($id);
         <div class="flex justify-between items-center px-8">
                 <h1> ville</h1>
 
-
-                
-
             <div class="flex gap-4">
                     <button id="add-etd" onclick=" document.getElementById('modal').classList.remove('hidden')" class="animate__pulse flex gap-2 items-center bg-[#4790cd] px-4 py-2 rounded-lg text-white ">
                         <img src="img/_Avatar add button.svg " alt="">Ajouter Ville
@@ -144,7 +141,7 @@ $allvilles = $villeController->readAll($id);
                             </button>
                                     
                             
-                            <a href="deleteV.php?id=<?= $ville['id_pays'] ?>&idCity=<?= $ville['id_ville'] ?>">
+                            <a href="../Controller/deleteV.php?id=<?= $ville['id_pays'] ?>&idCity=<?= $ville['id_ville'] ?>">
                                     <img class="w-4 h-4 cursor-pointer" src="img/delete.png" alt="">
                             </a>
                             </div>
@@ -164,7 +161,7 @@ $allvilles = $villeController->readAll($id);
         <div class="bg-white w-full max-w-lg p-6 rounded-md shadow-lg space-y-4">
         <h2 class="text-xl font-semibold text-gray-700">Ajouter un pays</h2>
         <form enctype="multipart/form-data" action="../Controller/ajouterV.php?id=<?=$id?>&<?php if (isset($_GET['idCity'])) {
-            echo "id=Update";
+            echo "idCity=$idCity"; 
         }
         ?>" method="POST" class="space-y-4">
             <div>
@@ -197,6 +194,7 @@ $allvilles = $villeController->readAll($id);
                 <?php
                             if (isset($_GET['idCity'])) {
                                 echo "Modifer";
+                                var_dump($_GET['idCity']);
                             }else {
                                 echo "Ajouter";
                             }
